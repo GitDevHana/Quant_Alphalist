@@ -1,0 +1,4 @@
+alpha= -ts_zscore(enterprise_value/ebitda, 60); 
+group1=bucket(rank((est_sales/sharesout)*snt_social_value),range="0.1667,1,0.1667"); 
+ranked_alpha=zscore(1+ts_zscore(group_neutralize(alpha,group1),820)); 
+hump(ranked_alpha, hump=0.0014)

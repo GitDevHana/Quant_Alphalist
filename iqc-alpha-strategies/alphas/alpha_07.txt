@@ -1,0 +1,1 @@
+log(ts_mean(anl4_tbvps_mean, 44)) - log(ts_mean(anl4_tbvps_low, 20))

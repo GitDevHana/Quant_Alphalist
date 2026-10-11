@@ -1,0 +1,27 @@
+// 0) 무차원화: 종가, 고가, 저가
+dc = close/1;
+dh = high/1;
+dl = low/1;
+
+// [롱 신호: CLV 기반]
+clv = ((close - low) - (high - close))/(high - low);
+long_rank = rank(rank(ts_mean(volume,20)/ts_mean(volume,80)) * rank(-clv));
+long_only = if_else(long_rank > 0.5, long_rank, 0);
+
+// [숏 신호: ROC 기반]
+roc = dc/ts_delay(dc,3) - 1;
+short_raw = if_else(roc > 0.021, rank(roc), 0.0);
+short_only = rank(short_raw);
+
+// [최종 신호 결합]
+// 최종 신호 = 롱 신호에서 숏 신호를 뺌
+final_signal = long_only - short_only;
+
+// [극단값 제거 및 신호 안정화]
+// winsorize로 극단값 제거
+final_signal_adj = winsorize(final_signal);
+
+// [최종 알파 산출]
+// 종목 간 rank()를 통해 최종 신호를 0~1 범위로 스케일 (높을수록 롱, 낮을수록 숏)
+alpha_final = rank(final_signal_adj);
+alpha_final

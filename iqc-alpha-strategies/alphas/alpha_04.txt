@@ -1,0 +1,3 @@
+positive_days=ts_sum(returns>0? 1:0, 252);
+trade_when(volume>adv20*5,positive_days,-1);
+ts_rank(operating_income/cap,252)

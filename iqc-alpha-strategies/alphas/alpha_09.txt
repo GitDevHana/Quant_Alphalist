@@ -1,0 +1,7 @@
+sigma = ts_sum(abs(close/open -1), 5)/5;
+ub = max(open, ts_delay(close, 1)) * (1+sigma);
+lb = min(open, ts_delay(close, 1) * (1-sigma));
+
+noise_area = (ub + lb)/2;
+alpha = (1 - (close/noise_area)) - (ub /noise_area);
+alpha

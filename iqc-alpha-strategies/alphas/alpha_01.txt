@@ -1,0 +1,2 @@
+clv = ((close-low)-(high-close))/(high-low);
+rank(rank(ts_mean(volume,60)/ts_mean(volume,252))*rank(-clv))

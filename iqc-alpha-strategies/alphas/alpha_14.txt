@@ -1,0 +1,2 @@
+avg_news = vec_avg(nws12_afterhsz_sl);
+rank(ts_sum(avg_news, 60)) > 0.5 ? 1 : rank(-ts_delta(close, 2))

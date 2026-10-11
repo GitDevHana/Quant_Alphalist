@@ -1,0 +1,28 @@
+// 0) 무차원화: 종가, 고가, 저가
+dc = close/1; dh = high/1; dl = low/1;
+
+// [롱 신호 추출 ]
+// clv 신호에서 롱 추출 
+clv = ((close - low) - (high - close))/(high - low);
+long_rank = rank(rank(ts_mean(volume,60)/ts_mean(volume,252)) * rank(-clv));
+long_only = if_else(long_rank > 0.5, long_rank, 0);
+
+// [숏 신호 추출]
+// 단기모멘트 중심, 60일 중장기 모멘트 9 대 1 비율 반영 
+val_rev_short = ts_mean(returns,3);
+val_rev_short2 = rank(val_rev_short);
+val_mom_short = - ts_mean(returns,60);
+val_mom_short2 = rank(val_mom_short);
+short_temp = (0.9 * val_rev_short2 + 0.1 * val_mom_short2);
+short_final = rank(short_temp);
+short_only = if_else(short_final > 0.5, short_final, 0);
+
+// [최종 신호 결합]
+// 롱 신호는 양수, 숏 신호는 음수로 반영하여 최종 신호를 생성
+final_signal = long_only - short_only;
+
+// [극단값 제거]
+// 최종 신호의 극단값을 winsorize로 제거한 후, 종목 간 rank로 최종 알파를 산출
+final_signal_adj = winsorize(final_signal);
+alpha_final = rank(final_signal_adj);
+alpha_final

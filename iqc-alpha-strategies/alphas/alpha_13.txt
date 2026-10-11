@@ -1,0 +1,4 @@
+a = (ts_rank(fnd6_fopo/debt_lt,252));
+group=bucket(rank(cap),range="0.1,1,0.1");
+b = 1+ts_rank(operating_income-operating_expense,63);
+a*(group_rank(b,exchange))

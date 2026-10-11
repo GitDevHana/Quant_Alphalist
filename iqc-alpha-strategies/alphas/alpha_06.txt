@@ -1,0 +1,7 @@
+-ts_backfill(zscore(goodwill/sales),65)*(rank(fn_accrued_liab_a)*rank(capex)*rank(dividend/sharesout)+rank(debt_st)) 
+
+# 추가 설명
+# zscore(goodwill/sales)가 클수록 매출 대비 재무 리스크가 존재
+# rank(fn_accrued_liab_a)가 클수록 단기 부채 리스크 존재
+# rank(capex)*rank(dividend/sharesout)가 클수록 회사의 자본 지출 리스크 존재
+#rank(debt_st)가 클수록 회사의 단기 부채 리스크 존재

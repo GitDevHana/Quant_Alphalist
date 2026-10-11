@@ -1,0 +1,9 @@
+m_ret = group_mean(returns, rank(ts_mean(cap, 20)), market);
+horro = abs(returns - m_ret) / (abs(returns)+abs(m_ret)+0.1);
+horro_day = ts_mean(horro, 22);
+ret_std = ts_std_dev(returns, 22);
+adj_ret = horro_day * ret_std * returns;
+adj_ret_mean = ts_mean(adj_ret, 22);
+adj_ret_std = ts_std_dev(adj_ret, 22);
+horro_std_bonus = zscore(adj_ret_mean) + zscore(adj_ret_std);
+-horro_std_bonus

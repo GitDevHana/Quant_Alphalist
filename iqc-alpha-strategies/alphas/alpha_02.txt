@@ -1,0 +1,2 @@
+positive_days=ts_sum(returns>0? 1:0, 252);
+trade_when((volume*vwap) > ts_mean(volume*vwap, 252)*5, positive_days, -1)

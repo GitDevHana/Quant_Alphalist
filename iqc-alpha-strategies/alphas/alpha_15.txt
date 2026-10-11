@@ -1,0 +1,2 @@
+group_neutralize(rank(-(close-(ts_product(close, 5))^(0.2))), 
+    (industry + 1) * group_mean(pv13_6l_scibr, market, 1) + pv13_6l_scibr)

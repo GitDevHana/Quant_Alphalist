@@ -1,0 +1,25 @@
+/////////////////////////////////////////////////////////
+// 0) 종가
+dc = close / 1;
+
+// 1) 펀더멘털 알파 (롱 파트)
+//    예) operating_income / cap
+val_raw = operating_income / cap;
+alpha_fund = rank(val_raw);
+// alpha_fund: 값 높으면 롱, 낮으면 숏 (하지만 여기서는 “롱 위주”라서 0보다 큰 값)
+
+// 2) ROC 기반 숏 파트
+//    3일 수익률
+roc3 = dc / ts_delay(dc, 3) - 1;
+// 예) ROC가 2%(0.02) 이상이면 과열 => 숏
+//    숏 세기를 rank(roc3)로 설정 (과열 정도에 따라 세기 차등)
+//    -> 음수 부호 붙여 숏
+short_raw = if_else(roc3 > 0.02, rank(roc3), 0.0);
+alpha_short = -short_raw;  // 음수 => 숏
+
+// 3) 알파 결합 (롱 + 숏)
+alpha_combined = 0.83 * alpha_fund + 1.17 *alpha_short;
+
+// 4) 최종 알파
+alpha_final = alpha_combined;
+alpha_final
